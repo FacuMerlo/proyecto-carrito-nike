@@ -17,6 +17,28 @@ let productos = {
 let carrito = {};
 
 // Funciones del carrito
+function menuCarrito() {
+    let opcion = '';
+    do {
+        opcion = prompt('Menú del carrito:\n1) Ver productos:\n2) Ver carrito:\n0) Salir de la tienda NIKE.');
+        switch (opcion) {
+            case '1':
+                agregarAlCarrito();
+                break;
+            case '2':
+                verCarrito();
+                calcularTotal();
+                break;
+            case '0':
+                alert('Gracias por visitar la tienda NIKE. Esperamos verte de nuevo!.');
+                break;
+            default:
+                alert('Opción no válida. Por favor, ingresa una opción correcta.');
+        }
+    } while (opcion !== '0');
+}
+
+
 function mostrarProductos() {
     let mensaje = 'Productos disponibles:\n';
     for (let numero in productos) {
@@ -30,7 +52,17 @@ function agregarAlCarrito() {
     while (seguirAgregando.toLowerCase() === 's') {
         mostrarProductos();
         let numeroProducto = prompt('Introduce el número del producto que te gustaría agregar al carrito:');
+
+        while (!numeroProducto || isNaN(numeroProducto) || !productos[numeroProducto]) {
+            alert('Por favor, ingresa un número de producto válido.');
+            numeroProducto = prompt('Introduce el número del producto que te gustaría agregar al carrito:');
+        }
         let cantidad = parseInt(prompt('¿Cuántas unidades te gustaría agregar?'));
+
+        while (isNaN(cantidad) || cantidad <= 0) {
+            alert('Por favor, ingresa una cantidad válida.');
+            cantidad = parseInt(prompt('¿Cuántas unidades te gustaría agregar?'));
+        }
 
         if (productos[numeroProducto] !== undefined) {
             let producto = productos[numeroProducto].nombre;
@@ -68,6 +100,7 @@ function calcularTotal() {
 }
 
 // Llamadas a las funciones
+menuCarrito()
 agregarAlCarrito();
 verCarrito();
 calcularTotal();
